@@ -6,7 +6,8 @@ import com.llq.Util.IntegerArrayGenerator;
 
 public class Sort {
 	
-	public static void insertSort(int[] arr) {
+	// 插入排序
+	public void insertSort(int[] arr) {
 		int key;
 		int i;
 		for (int j = 1; j < arr.length; j++) {
@@ -22,10 +23,12 @@ public class Sort {
 		}
 	}
 	
+	
 	public static void main(String[] args) {
 		int[] arr = IntegerArrayGenerator.randomGenerate(10, 6);
-//		System.out.println(Arrays.toString(arr));
-		insertSort(arr);
+		Sort sort = new Sort();
+		System.out.println(Arrays.toString(arr));
+		sort.insertSort(arr);
 //		System.out.println(Arrays.toString(arr));
 	}
 }
