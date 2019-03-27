@@ -2,44 +2,42 @@ from commons import Node
 from commons import gen_linked_list
 from commons import gen_linked_seq
 
-def print_list(root:Node):
-    if root is None:
+def print_list(head:Node):
+    if head is None:
         print('Empty')
         return
-    p = root
+    p = head
     while p.nxt:
         print(p.val, end='->')
         p = p.nxt
     print(p.val)
 
 
-def print_reverse(root:Node):
-    '''
-    反向打印链表，使用递归
-    '''
-    if root is None:
+# 反向打印链表，使用递归
+def print_reverse(head:Node):
+    if head is None:
         return
-    print_reverse(root.nxt)
-    print(root.val, end='->')
+    print_reverse(head.nxt)
+    print(head.val, end='->')
 
 
-# 将单链表反转
-def reverse(root:Node) -> Node:
-    if root is None or root.nxt is None:
-        return root
-    q, p = root, root.nxt
-    while p :
-        t = p.nxt
-        p.nxt = q
-        q, p = p, t
-    root.nxt = None
-    return q
+# 将单链表反转 p q r 三个指针
+def reverse(head:Node) -> Node:
+    if head is None or head.nxt is None:
+        return head
+    p, q = head, head.nxt
+    while q :
+        r = q.nxt
+        q.nxt = p
+        p, q = q, r
+    head.nxt = None
+    return p
 
 
 # 求单链表中结点的个数
-def count(root:Node):
+def count(head:Node):
     cnt = 0
-    p = root
+    p = head
     while p:
         cnt += 1
         p = p.nxt
@@ -48,30 +46,33 @@ def count(root:Node):
 
 # 查找单链表中的倒数第K个结点（k > 0）
 # 快慢指针
-def last_k(root:Node, k:int):
+def last_k(head:Node, k:int):
     if k <= 0:
         return None
-    q, p = root, root
+    p, q = head, head
     c = 0
     while p:
         if c >= k:
+            p = p.nxt
             q = q.nxt
-            p = p.nxt
         else:
-            p = p.nxt
+            q = q.nxt  # 一个指针走
         c += 1        
-    return q.val
+    return p.val
+
 
 # 查找中间节点 快慢指针，一个一次走一步，一个一次走两步
-def find_middle(root:Node):
-    if root is None or root.nxt is None:
-        return root
-    p, q= root, root
+def find_middle(head:Node):
+    if head is None or head.nxt is None:
+        return head
+    p, q= head, head
     while p and p.nxt:
         p = p.nxt.nxt
         q = q.nxt
     return q.val
 
+
+# 是否有环
 def has_cycle(head:Node):
     if head is None:
         return False
