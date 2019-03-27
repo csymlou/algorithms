@@ -72,7 +72,8 @@ def find_middle(head:Node):
     return q.val
 
 
-# 是否有环
+# 是否有环 快慢指针，一个一次走一步，一个一次走两步
+# 如果有环，一定会相交；如果无环，则会走完
 def has_cycle(head:Node):
     if head is None:
         return False
@@ -84,6 +85,8 @@ def has_cycle(head:Node):
             return True
     return False
 
+
+# 插入最后面 需要遍历到尾部 O(N)
 def add_last(head:Node, v):
     if head is None:
         head = Node(v, None)
@@ -95,6 +98,9 @@ def add_last(head:Node, v):
     p.nxt = n
     return head
 
+
+# 第一个公共节点
+# 先走到离尾部一样距离的位置，然后一起走，看有没有相同的节点
 def first_common_node(head1:Node, head2:Node):
     m, n = 0, 0
     p, q = head1, head2
