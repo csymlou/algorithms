@@ -1,6 +1,7 @@
 from commons import Node
 from commons import gen_linked_list
 from commons import gen_linked_seq
+from commons import gen_linked_by_list
 
 def print_list(head:Node):
     if head is None:
@@ -129,13 +130,36 @@ def first_common_node(head1:Node, head2:Node):
     return None
 
 
+def merge_sorted_list(head1:Node, head2:Node):
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    p, q = head1, head2 
+    if head1.val <= head2.val: # h 指向头，r 指向尾
+        h = head1
+        p = p.nxt
+    else:
+        h = head2
+        q = q.nxt
+    r = h
+    while p and q:  # 从 p和q 里面选出一个放在 r 后面
+        if p.val <= q.val:
+            r.nxt = p
+            p = p.nxt
+        else:
+            r.nxt = q
+            q = q.nxt
+        r = r.nxt
+    if p :
+        r.nxt = p
+    if q:
+        r.nxt = q
+    return h
+
+
 if __name__ == "__main__":
-    n1 = Node(1, None)
-    n2 = Node(2, None)
-    n3 = Node(3, None)
-    n4 = Node(4, None)
-    n1.nxt = n2
-    n3.nxt = n1
-    n2.nxt = n4
-    mm = first_common_node(n1, n3)
-    print(mm)
+    h1 = gen_linked_by_list('17')
+    h2 = gen_linked_by_list('245')
+    h = merge_sorted_list(h1, h2)
+    print_list(h)

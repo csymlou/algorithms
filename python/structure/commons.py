@@ -5,6 +5,9 @@ class Node():
     
     def __str__(self):
         return "Node({})".format(self.val)
+    
+    def __repr__(self):
+        return self.__str__()
 
 
 class BNode():
@@ -29,5 +32,14 @@ def gen_linked_seq(n, start=1) -> Node:
     for i in range(n):
         lst.append(Node(i+start, None))
     for i in range(0, n - 1):
+        lst[i].nxt = lst[i + 1]
+    return lst[0]
+
+
+def gen_linked_by_list(s):
+    lst = []
+    for c in s:
+        lst.append(Node(c, None))
+    for i in range(len(lst) - 1):
         lst[i].nxt = lst[i + 1]
     return lst[0]
