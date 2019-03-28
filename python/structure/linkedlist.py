@@ -150,7 +150,7 @@ def merge_sorted_list(head1:Node, head2:Node):
         else:
             r.nxt = q
             q = q.nxt
-        r = r.nxt
+        r = r.nxt  # r 在新形成的尾
     if p :
         r.nxt = p
     if q:
@@ -158,8 +158,37 @@ def merge_sorted_list(head1:Node, head2:Node):
     return h
 
 
+# 合并有序链表 递归方法
+def merge_sorted_list_recursive(head1:Node, head2:Node):
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    if head1.val <= head2.val:
+        h = head1
+        h.nxt = merge_sorted_list_recursive(head1.nxt, head2)
+    else:
+        h = head2
+        h.nxt = merge_sorted_list_recursive(head1, head2.nxt)
+    return h
+
+
+
+def bubble_sort(head:Node):
+    if head is None or head.nxt is None:
+        return head
+    p = head
+    while p:
+        q = p.nxt
+        while q:
+            if p.val > q.val:
+                p.val, q.val = q.val, p.val
+            q = q.nxt
+        p = p.nxt
+    return head
+
+
 if __name__ == "__main__":
-    h1 = gen_linked_by_list('17')
-    h2 = gen_linked_by_list('245')
-    h = merge_sorted_list(h1, h2)
+    h1 = gen_linked_by_list('3572917')
+    h = bubble_sort(h1)
     print_list(h)
