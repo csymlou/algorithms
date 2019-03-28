@@ -73,20 +73,6 @@ def find_middle(head:Node):
     return q.val
 
 
-# 是否有环 快慢指针，一个一次走一步，一个一次走两步
-# 如果有环，一定会相交；如果无环，则会走完
-def has_cycle(head:Node):
-    if head is None:
-        return False
-    p, q = head, head
-    while p and p.nxt:
-        p = p.nxt.nxt
-        q = q.nxt
-        if p == q:
-            return True
-    return False
-
-
 # 插入最后面 需要遍历到尾部 O(N)
 def add_last(head:Node, v):
     if head is None:
@@ -173,7 +159,7 @@ def merge_sorted_list_recursive(head1:Node, head2:Node):
     return h
 
 
-
+# 冒泡排序
 def bubble_sort(head:Node):
     if head is None or head.nxt is None:
         return head
@@ -181,11 +167,38 @@ def bubble_sort(head:Node):
     while p:
         q = p.nxt
         while q:
-            if p.val > q.val:
+            if p.val < q.val: #  <则正序  >则倒序
                 p.val, q.val = q.val, p.val
             q = q.nxt
         p = p.nxt
     return head
+
+
+
+
+# 是否有环 快慢指针，一个一次走一步，一个一次走两步
+# 如果有环，一定会相交；如果无环，则会走完
+def has_cycle(head:Node):
+    if head is None:
+        return False
+    p, q = head, head
+    while p and p.nxt:
+        p = p.nxt.nxt
+        q = q.nxt
+        if p == q:
+            return q # 给下一个找环的入口使用
+    return False
+
+
+# 找出进入环的第一个节点
+# 1 判断是否有环
+# 2 从环中找一个节点，假设将环断开，行成两个相交链表
+# 3 找出两个相交链表的第一个相交节点，即为进入环的首节点
+def fine_first_node_in_cycle(head:Node):
+    no = has_cycle(head)
+    if not no:
+        return None
+    return first_common_node(no, head)
 
 
 if __name__ == "__main__":
