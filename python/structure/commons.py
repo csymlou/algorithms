@@ -10,14 +10,6 @@ class Node():
         return self.__str__()
 
 
-class BNode():
-    def __init__(self, val, left, right):
-        self.val = val
-        self.left = left
-        self.right = right
-
-
-
 def gen_linked_list():
     n1 = Node(1, None)
     n2 = Node(2, n1)
@@ -43,3 +35,18 @@ def gen_linked_by_list(s):
     for i in range(len(lst) - 1):
         lst[i].nxt = lst[i + 1]
     return lst[0]
+
+
+
+
+class TreeNode():
+    def __init__(self, val, left, right):
+        self.val = val
+        self.left = left
+        self.right = right
+    
+    def __str__(self):
+        return "{}-{}-{}".format(self.left.val if self.left else '' , self.val, self.right.val if self.right else '')
+    
+    def __repr__(self):
+        return "{}".format(self.val)
