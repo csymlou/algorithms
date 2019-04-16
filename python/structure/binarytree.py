@@ -119,14 +119,117 @@ def post_order(root:TreeNode):
     print(root.val, end=' ')
 
 
+def is_leaf(node):
+    return node.left is None and node.right is None
+
+
+def pre_bi_link(root):
+    head, tail = to_bi_linklist_post(root)
+    head.left, tail.right = None, None
+    p = head
+    while p:
+        print(p.val, end=' ')
+        p = p.right
+    
+    print()
+    q = tail
+    while q:
+        print(q.val, end=' ')
+        q = q.left        
+
+
+# 传入一个node，返回这棵树 按照先序 转化为链表之后的头尾节点
+def to_bi_linklist_pre(node):
+    if node is None:
+        return None, None
+
+    h1, t1 = to_bi_linklist_pre(node.left)  # 左子树转成双链表，返回头尾
+    h2, t2 = to_bi_linklist_pre(node.right) # 右子树转成双链表，返回头尾
+
+    node.left = None
+
+    if is_leaf(node): # 叶子是单节点，前后都是None
+        node.left = None
+        node.right = None
+        return node, node
+
+    if h1 is None:
+        link(node, h2)
+        return node, t2
+    
+    if h2 is None:
+        link(node, h1)
+        return node, t1
+    
+    if h1 and h2:
+        link(node, h1)
+        link(t1, h2)
+        return node, t2
+
+# 传入一个node，返回这棵树 按照中序 转化为链表之后的头尾节点
+def to_bi_linklist_in(node):
+    if node is None:
+        return None, None
+    
+    h1, t1 = to_bi_linklist_in(node.left)
+    h2, t2 = to_bi_linklist_in(node.right)
+
+    node.left = None
+
+    if h1 is None and h2 is None:
+        node.left, node.right = None, None
+        return node, node
+    
+    if h1 is None:
+        link(node, h2)
+        return node, t2
+    
+    if h2 is None:
+        link(t1, node)
+        return h1, node
+    
+    if h1 and h2:
+        link(t1, node)
+        link(node, h2)
+        return h1, t2
+
+# 传入一个node，返回这棵树 按照后序 转化为链表之后的头尾节点
+def to_bi_linklist_post(node):
+    if node is None:
+        return None, None
+    
+    h1, t1 = to_bi_linklist_post(node.left)
+    h2, t2 = to_bi_linklist_post(node.right)
+
+    node.left = None
+
+    if h1 is None and h2 is None:
+        node.left, node.right = None, None
+        return node, node
+    
+    if h1 and not h2:
+        link(t1, node)
+        return h1, node
+    
+    if h2 and not h1:
+        link(t2, node)
+        return h2, node
+    
+    if h1 and h2:
+        link(t1, h2)
+        link(t2, node)
+        return h1, node
+
+
+def link(n1, n2):
+    n1.right, n2.left = n2, n1
+
+
 if __name__ == "__main__":
     s = 'ABCDE#G##J#LMN#'
     rt = from_str(s)
     print_tree(rt)
-    print_layer_2(rt)
-    # pre_order(rt)
-    # print()
-    # in_order(rt)
-    # print()
-    # post_order(rt)
-    # print()
+    # print_layer_2(rt)
+    post_order(rt)
+    print()
+    pre_bi_link(rt)
