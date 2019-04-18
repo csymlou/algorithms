@@ -50,3 +50,23 @@ class TreeNode():
     
     def __repr__(self):
         return "{}".format(self.val)
+
+
+class Stack():
+    def __init__(self):
+        self.eles = []
+    
+    def push(self, e):
+        self.eles.append(e)
+    
+    def pop(self):
+        return self.eles.pop()
+    
+    def isEmpty(self):
+        return len(self.eles) == 0
+    
+    def isNotEmpty(self):
+        return len(self.eles) > 0
+    
+    def __str__(self):
+        return self.eles.__str__()

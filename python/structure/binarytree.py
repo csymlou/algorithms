@@ -1,4 +1,5 @@
 from commons import TreeNode
+from commons import Stack
 
 # 从满二叉树的字符串，创建一个二叉树
 def from_str(s:str)->TreeNode:
@@ -100,6 +101,20 @@ def pre_order(root:TreeNode):
     pre_order(root.left)
     pre_order(root.right)
 
+# 非递归
+def pre_order_2(root):
+    s = Stack()
+    s.push(root)
+    while not s.isEmpty() : 
+        node = s.pop()
+        print(node.val, end=' ')
+        if node.right:
+            s.push(node.right) # 右节点 入栈
+        if node.left : 
+            s.push(node.left)  # 左节点 入栈
+    print()
+
+
 
 #  中序遍历
 def in_order(root:TreeNode):
@@ -109,6 +124,35 @@ def in_order(root:TreeNode):
     print(root.val, end=' ')
     in_order(root.right)
 
+# 中序 非递归
+def in_order_2(root:TreeNode):
+    s = Stack()
+    p = root
+    while p or s.isNotEmpty():
+        if p.left:
+            s.push(p)  # 存在left，根 入栈
+            p = p.left
+        else:
+            print(p.val) # left is None
+            p = p.right
+            while p is None and s.isNotEmpty():  # right is None
+                p = s.pop()
+                print(p.val)
+                p = p.right
+
+# 中序 非递归
+def in_order_3(root:TreeNode):
+    s = Stack()
+    p = root
+    while p or s.isNotEmpty():
+        while p :
+            s.push(p)
+            p = p.left
+        if s.isNotEmpty():
+            p = s.pop()
+            print(p.val)
+            p = p.right
+
 
 #  后序遍历
 def post_order(root:TreeNode):
@@ -117,6 +161,22 @@ def post_order(root:TreeNode):
     post_order(root.left)
     post_order(root.right)
     print(root.val, end=' ')
+
+
+def post_order_2(root):
+    s = Stack()
+    out = Stack() # 输出栈
+    p = root
+    while p or s.isNotEmpty():
+        if p : 
+            s.push(p)
+            out.push(p)
+            p = p.right  # 如果有右节点，一路压栈
+        else:
+            p = s.pop()  # 如果没有右节点，弹一个出来，走向左边
+            p = p.left
+    while out.isNotEmpty():
+        print(out.pop().val)
 
 
 def is_leaf(node):
@@ -232,4 +292,7 @@ if __name__ == "__main__":
     # print_layer_2(rt)
     post_order(rt)
     print()
-    pre_bi_link(rt)
+    # pre_bi_link(rt)
+    # in_order_2(rt)
+    post_order_2(rt)
+
