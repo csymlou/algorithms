@@ -32,8 +32,12 @@ def combine(a, n, slted, k):
         return
     if k > n:
         return
+    
+    # 选
     slted.append(a[k])
     combine(a, n, slted, k+1)
+    
+    #不选
     slted.pop()
     combine(a, n, slted, k+1)
 
