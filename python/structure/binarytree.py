@@ -93,30 +93,33 @@ def depth(root:TreeNode):
     return max(depth(root.left), depth(root.right)) + 1
 
 
-#  前序遍历
+def visit(node):
+    print(node.val, end=' ')
+
+
+# 前序遍历
 def pre_order(root:TreeNode):
     if root is None:
         return
-    print(root.val, end=' ')
+    visit(root)
     pre_order(root.left)
     pre_order(root.right)
 
-# 非递归
+# 前序 非递归
 def pre_order_2(root):
-    s = Stack()
-    s.push(root)
-    while not s.isEmpty() : 
-        node = s.pop()
-        print(node.val, end=' ')
-        if node.right:
-            s.push(node.right) # 右节点 入栈
-        if node.left : 
-            s.push(node.left)  # 左节点 入栈
-    print()
+    stack = []
+    p = root
+    while p or stack :
+        if p :
+            visit(p)
+            if p.right:
+                stack.append(p.right)
+            p = p.left
+        elif stack:
+            p = stack.pop(-1)
 
 
-
-#  中序遍历
+# 中序遍历
 def in_order(root:TreeNode):
     if root is None:
         return
@@ -124,59 +127,45 @@ def in_order(root:TreeNode):
     print(root.val, end=' ')
     in_order(root.right)
 
-# 中序 非递归
-def in_order_2(root:TreeNode):
-    s = Stack()
-    p = root
-    while p or s.isNotEmpty():
-        if p.left:
-            s.push(p)  # 存在left，根 入栈
-            p = p.left
-        else:
-            print(p.val) # left is None
-            p = p.right
-            while p is None and s.isNotEmpty():  # right is None
-                p = s.pop()
-                print(p.val)
-                p = p.right
 
 # 中序 非递归
-def in_order_3(root:TreeNode):
-    s = Stack()
+def in_order_2(root):
+    stack = []
     p = root
-    while p or s.isNotEmpty():
+    while p or stack: 
         while p :
-            s.push(p)
+            stack.append(p)
             p = p.left
-        if s.isNotEmpty():
-            p = s.pop()
-            print(p.val)
+        if stack : 
+            p = stack.pop(-1)
+            visit(p)
             p = p.right
 
 
-#  后序遍历
+# 后序遍历
 def post_order(root:TreeNode):
     if root is None:
         return
     post_order(root.left)
     post_order(root.right)
-    print(root.val, end=' ')
+    visit(root)
 
-
+# 后序 非递归
 def post_order_2(root):
-    s = Stack()
-    out = Stack() # 输出栈
+    stack = []
     p = root
-    while p or s.isNotEmpty():
-        if p : 
-            s.push(p)
-            out.push(p)
-            p = p.right  # 如果有右节点，一路压栈
+    out = []
+    while p or stack :
+        if p :
+            stack.append(p)
+            out.append(p)
+            p = p.right
         else:
-            p = s.pop()  # 如果没有右节点，弹一个出来，走向左边
+            p = stack.pop(-1)
             p = p.left
-    while out.isNotEmpty():
-        print(out.pop().val)
+    while out :
+        visit(out.pop())
+
 
 
 def is_leaf(node):
