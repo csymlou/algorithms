@@ -37,12 +37,13 @@ def build_max_heap(A):
 
 # 从坐标i开始向下整理堆
 def max_heapify(A, i):
+    N = len(A)
     l = left(i)
     r = right(i)
     m = i
-    if l < len(A) and A[l] > A[i]:
+    if l < N and A[l] > A[i]:
         m = l
-    if r < len(A) and A[r] > A[m]:
+    if r < N and A[r] > A[m]:
         m = r
     if m != i:
         A[i], A[m] = A[m], A[i]
