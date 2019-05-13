@@ -58,6 +58,40 @@ def right(i):
     return 2 * i + 2
 
 
+# 归并排序
+def merge_sort(A, p, r):
+    if p < r:
+        m = (p + r) // 2
+        merge_sort(A, p, m)
+        merge_sort(A, m + 1, r)
+        merge(A, p, m, r)
+
+
+def merge(A, p, m, r):
+    tmp = [0] * len(A)
+    i, j = p, m + 1
+    k = p
+    while i <= m and j <= r:
+        if A[i] <= A[j]:
+            tmp[k] = A[i]
+            i += 1
+        else:
+            tmp[k] = A[j]
+            j += 1
+        k += 1
+    while i <= m:
+        tmp[k] = A[i]
+        i += 1
+        k += 1
+    while j <= r:
+        tmp[k] = A[j]
+        j += 1
+        k += 1
+    A[p:r + 1] = tmp[p:r + 1]
+    print(A)
+
+
+
 if __name__ == '__main__':
     a = [4, 3, 5, 2, 1]
     quick_sort(a, 0, len(a) - 1)
