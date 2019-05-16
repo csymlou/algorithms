@@ -90,6 +90,27 @@ def bag_full(stones, U):
 
 
 
+
+"""
+最少硬币
+
+dp[u] = min{ dp[u - vi] + 1 }, dp[0]=0,  vi<=u<=U
+
+"""
+MX = float('inf')
+
+def min_coins(A, U):
+    dp = [0] + [MX] * U
+    for u in range(1, U + 1):
+        mi = MX
+        for a in A:
+            if u >= a:
+                mi = min(mi, dp[u - a] + 1)
+        dp[u] = mi
+    print(dp)
+
+
+
 if __name__ == '__main__':
     a = [1,2,3]
     perm(a, 0, 2)
