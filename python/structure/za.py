@@ -111,6 +111,32 @@ def min_coins(A, U):
 
 
 
+
+"""
+八皇后
+
+"""
+N = 8
+A = [a for a in range(1, N + 1)] # 数字1~N 代表皇后
+def queen(rst, i):
+    if i == N:
+        print(rst)
+        return
+
+    for a in A:
+        rst[i] = a
+
+        ok = True
+        for j in range(i):
+            if rst[j] == rst[i] or i - j == abs(rst[i] - rst[j]):
+                ok = False
+                break
+
+        if ok:
+            queen(rst, i + 1)
+
+
+
 if __name__ == '__main__':
     a = [1,2,3]
     perm(a, 0, 2)
