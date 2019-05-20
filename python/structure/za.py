@@ -136,6 +136,134 @@ def queen(rst, i):
             queen(rst, i + 1)
 
 
+"""
+1~n 中1的个数
+
+"""
+
+
+def get_high(n):
+    t = 1
+    while n > 10:
+        t *= 10
+        n //= 10
+    return n * t
+
+
+def count_high(n):
+    digits = [int(d) for d in list(str(n))]
+    N = len(digits)
+    if N < 2:
+        return 0
+
+    # 第一位
+    cnt = 0
+    first = digits[0]
+    if first == 1:
+        hi = get_high(n)
+        cnt += n - hi + 1
+    else:
+        cnt += 10 ** (N - 1)
+
+    # 第二位及以后
+    cnt += first * (N - 1) * 10 ** (N - 2)
+
+    return cnt
+
+
+def count1(n):
+    if n == 0:
+        return 0
+    elif n < 10:
+        return 1
+    n1 = get_high(n)
+    n2 = n - n1
+
+    c1 = count_high(n)
+    c2 = count1(n2)
+    return c1 + c2
+
+
+
+
+
+"""
+str2float()
+
+"""
+
+def is_blank(c):
+    return c in ' \t\n\r'
+
+def char2digit(c):
+    d = ord(c) - ord('0')
+    if d < 0 or d > 9:
+        raise ValueError(c)
+    return d
+
+def str2float(s):
+
+    h, t = 0, len(s) - 1
+    while is_blank(s[h]):
+        h += 1
+    while is_blank(s[t]):
+        t -= 1
+
+    i = h
+
+    # sign
+    sign = 1
+    if s[i] == '+':
+        i += 1
+    elif s[i] == '-':
+        sign = -1
+        i += 1
+
+    # 整数部分
+    r1 = 0
+    while i <= t and s[i] not in '.eE':
+        d = char2digit(s[i])
+        r1 = 10 * r1 + d
+        i += 1
+    if i == t + 1:
+        return sign * r1
+
+    # 小数部分
+    r2 = 0
+    dot = 0.1
+    if s[i] == '.':
+        i += 1
+        while i <= t and s[i] not in 'eE':
+            r2 += char2digit(s[i]) * dot
+            dot *= 0.1
+            i += 1
+    if i == t + 1:
+        return sign * (r1 + r2)
+
+    # 指数部分
+    exp = 0
+    if s[i] in 'eE':
+        i += 1
+        exp_sign = 1
+        if s[i] == '+':
+            i += 1
+        if s[i] == '-':
+            exp_sign = -1
+            i += 1
+        while i <= t:
+            d = char2digit(s[i])
+            exp = 10 * exp + d
+            i += 1
+        exp = 10 ** (exp_sign * exp)
+
+    if i == t + 1:
+        return sign * (r1 + r2) * exp
+    else:
+        raise ValueError()
+
+
+
+
 
 if __name__ == '__main__':
     a = [1,2,3]
