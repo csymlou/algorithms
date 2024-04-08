@@ -1,3 +1,4 @@
+// 两个线程交替打印数字
 package main
 
 import (
